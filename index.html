@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel Nikitin — Neuroscience Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     EDIT ME — search for "EDIT ME" markers to swap in your photo
+     and social links. Everything else is pulled from your CV.
+     ============================================================ */
+
+  :root{
+    --bg: #0A0B14;
+    --surface: #12131F;
+    --surface-2: #171827;
+    --line: rgba(237,234,227,0.09);
+    --line-strong: rgba(237,234,227,0.16);
+    --text: #EDEAE3;
+    --text-muted: #8D90A3;
+    --text-faint: #5B5E70;
+    --signal: #E8A33D;
+    --synapse: #7C8CFF;
+    --display: 'Fraunces', serif;
+    --body: 'IBM Plex Sans', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --maxw: 1120px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior: auto; } }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #brain-canvas{ position: fixed; inset: 0; width:100%; height:100%; z-index:0; pointer-events:none; }
+  a{ color: inherit; }
+  .wrap{ max-width: var(--maxw); margin:0 auto; padding:0 32px; }
+
+  /* ---------- Nav ---------- */
+  header{
+    position: sticky; top:0; z-index:50;
+    backdrop-filter: blur(10px);
+    background: rgba(10,11,20,0.72);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 32px; max-width: var(--maxw); margin:0 auto;
+  }
+  .brand{ font-family: var(--mono); font-size:13px; letter-spacing:0.08em; color: var(--text-muted); text-decoration:none; }
+  .brand b{ color: var(--signal); font-weight:500; }
+  nav ul{ list-style:none; display:flex; gap:8px; margin:0; padding:0; }
+  nav a.navlink{
+    text-decoration:none; font-family: var(--mono); font-size:12.5px; letter-spacing:0.12em;
+    color: var(--text-muted); padding:8px 14px; border-radius:999px;
+    transition: color .2s ease, background .2s ease;
+  }
+  nav a.navlink:hover{ color: var(--text); background: var(--surface-2); }
+  nav a.navlink.active{ color: var(--bg); background: var(--signal); }
+
+  main{ position:relative; z-index:1; }
+  section{ padding: 140px 0 120px; border-bottom: 1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+
+  .eyebrow{
+    font-family: var(--mono); font-size:12px; letter-spacing:0.18em; text-transform:uppercase;
+    color: var(--signal); display:flex; align-items:center; gap:10px; margin-bottom:20px;
+  }
+  .eyebrow::before{ content:""; width:26px; height:1px; background: var(--signal); display:inline-block; }
+
+  h1,h2,h3{ font-family: var(--display); font-weight:450; margin:0; }
+
+  /* ---------- Home ---------- */
+  #home .home-grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap:64px; align-items:center; }
+  #home h1{ font-size: clamp(38px, 5vw, 60px); line-height:1.08; letter-spacing:-0.01em; }
+  #home h1 .accent{ color: var(--signal); font-style: italic; }
+  .tagline{ font-family: var(--mono); font-size:13.5px; color: var(--text-muted); margin-top:18px; letter-spacing:0.02em; }
+  .bio{ margin-top:26px; font-size:16.5px; color: var(--text-muted); max-width:54ch; }
+  .bio strong{ color: var(--text); font-weight:500; }
+
+  .socials{ display:flex; gap:14px; margin-top:34px; flex-wrap:wrap; }
+  .social-link{
+    display:flex; align-items:center; gap:9px; text-decoration:none;
+    font-family: var(--mono); font-size:12.5px; letter-spacing:0.05em; color: var(--text);
+    padding:10px 16px; border:1px solid var(--line-strong); border-radius:999px;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+  }
+  .social-link:hover{ border-color: var(--signal); background: rgba(232,163,61,0.08); transform: translateY(-1px); }
+  .social-link svg{ width:15px; height:15px; }
+
+  .portrait-frame{ position:relative; justify-self:center; width:min(320px, 78vw); aspect-ratio:1/1; }
+  .portrait-ring{ position:absolute; inset:-14px; border:1px solid var(--line-strong); border-radius:50%; }
+  .portrait-ring::before{ content:""; position:absolute; inset:0; border-radius:50%; border-top:1px solid var(--signal); animation: spin 22s linear infinite; }
+  @media (prefers-reduced-motion: reduce){ .portrait-ring::before{ animation:none; } }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  .portrait{
+    width:100%; height:100%; border-radius:50%; overflow:hidden;
+    background: linear-gradient(160deg, var(--surface-2), var(--surface));
+    display:flex; align-items:center; justify-content:center; border:1px solid var(--line);
+  }
+  .portrait img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .portrait .placeholder-mark{ font-family: var(--mono); font-size:11px; color: var(--text-faint); text-align:center; padding:20px; letter-spacing:0.05em; }
+  .portrait svg{ width:46%; opacity:0.5; }
+
+  /* ---------- Section headers ---------- */
+  .section-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:56px; flex-wrap:wrap; }
+  .section-head h2{ font-size: clamp(30px, 3.6vw, 42px); }
+  .section-note{ font-family: var(--mono); font-size:12.5px; color: var(--text-faint); max-width:32ch; text-align:right; }
+
+  /* ---------- CV ---------- */
+  .cv-block{ margin-bottom:52px; }
+  .cv-block:last-child{ margin-bottom:0; }
+  .cv-block h3{
+    font-family: var(--mono); font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase;
+    color: var(--synapse); margin-bottom:26px; display:flex; align-items:center; gap:10px;
+  }
+  .cv-block h3::after{ content:""; flex:1; height:1px; background: var(--line); }
+  .cv-entry{ display:grid; grid-template-columns:150px 1fr; gap:24px; padding:18px 0; border-top:1px solid var(--line); }
+  .cv-entry:first-of-type{ border-top:none; padding-top:0; }
+  .cv-when{ font-family: var(--mono); font-size:12px; color: var(--text-faint); padding-top:3px; }
+  .cv-what b{ font-weight:500; font-size:16px; }
+  .cv-what .org{ color: var(--signal); font-size:13.5px; display:block; margin-top:2px; }
+  .cv-what p{ color: var(--text-muted); margin:8px 0 0; font-size:14px; max-width:64ch; }
+
+  /* publication / talk lists */
+  .pub-list{ display:flex; flex-direction:column; }
+  .pub-entry{ padding:16px 0; border-top:1px solid var(--line); }
+  .pub-entry:first-child{ border-top:none; padding-top:0; }
+  .pub-entry a.pub-title{
+    font-size:15.5px; font-weight:500; text-decoration:none; color: var(--text);
+    background-image: linear-gradient(var(--signal), var(--signal));
+    background-repeat:no-repeat; background-size:0% 1px; background-position: 0 100%;
+    transition: background-size .25s ease, color .2s ease;
+    padding-bottom:1px;
+  }
+  .pub-entry a.pub-title:hover{ background-size:100% 1px; color: var(--signal); }
+  .pub-meta{ font-family: var(--mono); font-size:12px; color: var(--text-faint); margin-top:6px; }
+  .pub-meta .journal{ color: var(--text-muted); }
+  .talk-entry{ padding:16px 0; border-top:1px solid var(--line); }
+  .talk-entry:first-child{ border-top:none; padding-top:0; }
+  .talk-entry .t-title{ font-size:15px; color: var(--text); font-weight:500; }
+  .talk-entry .t-meta{ font-family: var(--mono); font-size:12px; color: var(--text-faint); margin-top:5px; }
+
+  .skills-grid{ display:flex; flex-wrap:wrap; gap:10px; }
+  .skill-pill{ font-family: var(--mono); font-size:12px; padding:8px 14px; border:1px solid var(--line-strong); border-radius:999px; color: var(--text-muted); }
+
+  /* ---------- Projects ---------- */
+  .project-intro{ font-size:14.5px; color: var(--text-muted); max-width:56ch; margin: -34px 0 44px; }
+  .project-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap:22px; }
+  .project-card{
+    background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:26px;
+    text-decoration:none; color:inherit; position:relative; overflow:hidden; display:block;
+    transition: border-color .25s ease, transform .25s ease, background .25s ease;
+  }
+  .project-card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, var(--signal), var(--synapse));
+    transform: scaleX(0); transform-origin:left; transition: transform .3s ease;
+  }
+  .project-card:hover{ border-color: var(--line-strong); background: var(--surface-2); transform: translateY(-3px); }
+  .project-card:hover::before{ transform: scaleX(1); }
+  .project-status{ font-family: var(--mono); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color: var(--synapse); margin-bottom:14px; display:block; }
+  .project-card h3{ font-size:19px; line-height:1.3; margin-bottom:10px; }
+  .project-card p{ color: var(--text-muted); font-size:13px; margin:0; }
+  .project-open{ margin-top:20px; font-family: var(--mono); font-size:11.5px; color: var(--signal); display:flex; align-items:center; gap:6px; }
+
+  @media (max-width: 860px){
+    .project-grid{ grid-template-columns:1fr; }
+    #home .home-grid{ grid-template-columns:1fr; }
+    .portrait-frame{ order:-1; }
+    .cv-entry{ grid-template-columns:1fr; gap:6px; }
+    .section-note{ text-align:left; }
+  }
+
+  footer{ position:relative; z-index:1; padding:40px 0 60px; text-align:center; font-family: var(--mono); font-size:11.5px; color: var(--text-faint); }
+</style>
+</head>
+<body>
+
+<canvas id="brain-canvas"></canvas>
+
+<header>
+  <div class="nav-inner">
+    <a href="#home" class="brand">◆ <b>DANIEL NIKITIN</b> — NEUROSCIENCE</a>
+    <nav>
+      <ul>
+        <li><a href="#home" class="navlink" data-nav="home">HOME</a></li>
+        <li><a href="#cv" class="navlink" data-nav="cv">MY CV</a></li>
+        <li><a href="#projects" class="navlink" data-nav="projects">PROJECTS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HOME ============ -->
+  <section id="home">
+    <div class="wrap home-grid">
+      <div>
+        <div class="eyebrow">Neuroscience · Decision-Making &amp; Reward</div>
+        <h1>Studying how the brain responds to <span class="accent">reward</span>.</h1>
+        <div class="tagline">M.Sc. Student, Peter Boris Centre for Addictions Research (McMaster)</div>
+        <p class="bio">
+          I'm <strong>Daniel Nikitin</strong>, a MSc neuroscience student at McMaster University with interests
+          in decision-making, reward, and risk-taking behaviour. My work focuses on understanding how cognitive
+          biases and prior information shape people's decisions and choice behaviour, and whether these biases
+          can systematically influence how individuals learn from and respond to rewards.
+        </p>
+        <p class="bio">
+          In parallel, I have contributed to clinical research in spine surgery, including studies on
+          perioperative outcomes and postoperative risk in older adults, bridging cognitive science with
+          real-world medical decision-making.
+        </p>
+
+        <div class="socials">
+          <a class="social-link" href="mailto:nikitind@mcmaster.ca">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+            Email Me
+          </a>
+          <a class="social-link" href="https://www.linkedin.com/in/daniel-nikitin-0995862bb" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.8c0-1.62-.03-3.7-2.25-3.7-2.26 0-2.6 1.77-2.6 3.6V23h-4V8z"/></svg>
+            LinkedIn
+          </a>
+          <a class="social-link" href="https://scholar.google.ca/citations?user=Dr6fnH8AAAAJ&hl=en&authuser=1" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 0 9l4 2.4V19h2v-6.4l2 1.2V19h8v-5.2l2-1.2V19h2v-7.6L24 9 12 2zm0 2.3L19.8 9 12 13.7 4.2 9 12 4.3zM8 18v-3.6l4 2.4 4-2.4V18H8z"/></svg>
+            Google Scholar
+          </a>
+          <a class="social-link" href="https://www.researchgate.net/profile/Daniel-Nikitin/research" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 2H12v2h4.9L9 11.9l1.4 1.4L18.3 5.4V10h2V2h-.7zM4 8h5v2H6v9h6v-4H9v-2h5v8H4V8z"/></svg>
+            ResearchGate
+          </a>
+        </div>
+      </div>
+
+<div class="portrait-frame">
+  <div class="portrait-ring"></div>
+  <div class="portrait">
+    <img src="profile_picture.png" alt="Daniel Nikitin">
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CV ============ -->
+  <section id="cv">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>My CV</h2>
+        <div class="section-note">Education, research experience, and academic output.</div>
+      </div>
+
+      <div class="cv-block">
+        <h3>Education</h3>
+        <div class="cv-entry">
+          <div class="cv-when">2026 — 2028<br>(Expected)</div>
+          <div class="cv-what">
+            <b>M.Sc. Neuroscience</b>
+            <span class="org">McMaster University, Faculty of Health Sciences</span>
+          </div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-when">2022 — 2026</div>
+          <div class="cv-what">
+            <b>HB.Sc. Neuroscience Specialist</b>
+            <span class="org">University of Toronto, Dept. of Psychology &amp; Brain Sciences</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <h3>Research &amp; Clinical Experience</h3>
+        <div class="cv-entry">
+          <div class="cv-when">08/2026 — Present</div>
+          <div class="cv-what">
+            <b>Graduate Student Researcher</b>
+            <span class="org">Peter Boris Centre for Addictions Research (Dr. Iris Balodis), McMaster University</span>
+            <p>Addictions research centred on reward processing and risk-taking behaviour.</p>
+          </div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-when">05/2024 — Present</div>
+          <div class="cv-what">
+            <b>Project Leader / Thesis Student</b>
+            <span class="org">Fukuda Lab (Dr. Keisuke Fukuda), University of Toronto Mississauga</span>
+            <p>EEG and behavioural research on reward outcome evaluation, perceptual categorization, and visual working memory.</p>
+          </div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-when">05/2024 — Present</div> <!-- EDIT ME: confirm start date -->
+          <div class="cv-what">
+            <b>Senior Research Assistant / Project Lead</b>
+            <span class="org">Oitment Spine Lab (Dr. Colby Oitment)</span>
+            <p>Leading systematic reviews and meta-analyses on surgical procedure outcomes in spine surgery.</p>
+          </div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-when">05/2024 — Present</div>
+          <div class="cv-what">
+            <b>Volunteer</b>
+            <span class="org">Orthopedic Clinic (Dr. Colby Oitment), Scarborough General Hospital</span>
+            <p>Pre-surgical patient care and clinical observation in orthopedic surgery.</p>
+          </div>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-when">06/2025 — 04/2026</div>
+          <div class="cv-what">
+            <b>Research Assistant</b>
+            <span class="org">Biopsychosocial Investigations of Gender Lab (Dr. Doug VanderLaan), University of Toronto Mississauga</span>
+            <p>MRI preprocessing and neuroanatomical analysis for a longitudinal neuroimaging study, with CAMH's Brain Health Imaging Centre.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <h3>Publications</h3>
+        <div class="pub-list">
+          <div class="pub-entry">
+            <a class="pub-title" href="https://journals.lww.com/spineopen/fulltext/2026/03010/early_postoperative_mortality_and_morbidity.5.aspx" target="_blank" rel="noopener">Early Postoperative Mortality and Morbidity Following Elective Spine Surgery in Patients Over 80 Years of Age</a>
+            <div class="pub-meta">Nikitin, D., Bermudez-Hiu, A., Koziarz, F., Jiang, F., &amp; Oitment, C. (2026) · <span class="journal">Spine Open, 2(1)</span></div>
+          </div>
+          <div class="pub-entry">
+            <!-- EDIT ME: swap in the direct article link once it's live — for now this points to the journal homepage -->
+            <a class="pub-title" href="https://journals.lww.com/jaaosglobal/pages/default.aspx" target="_blank" rel="noopener">Surgical Decision-Making in the Infected Thoracolumbar Spine: Managing Deep Surgical Site Infection After Instrumented Fusion</a>
+            <div class="pub-meta">Oitment, C., Nikitin, D., Bermudez-Hiu, A., &amp; Jiang, F. (Accepted) · <span class="journal">JAAOS Global Research &amp; Reviews</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <h3>Conference Abstracts</h3>
+        <div class="pub-list">
+          <div class="pub-entry">
+            <a class="pub-title" href="https://journals.sagepub.com/home/gsj" target="_blank" rel="noopener">Perioperative Morbidity and Mortality Following Elective Spinal Surgery in Octogenarians and Beyond: A Systematic Review and Meta-Analysis</a>
+            <div class="pub-meta">Nikitin, D., Bermudez-Hiu, A., Jiang, F., Grant, K., &amp; Oitment, C. (Accepted) · <span class="journal">Global Spine Journal</span></div>
+          </div>
+          <div class="pub-entry">
+            <a class="pub-title" href="https://www.canjsurg.ca/" target="_blank" rel="noopener">Elective Spine Surgery in Octogenarians: Early Postoperative Mortality and Morbidity</a>
+            <div class="pub-meta">Nikitin, D., Bermudez-Hiu, A., Jiang, F., Grant, K., &amp; Oitment, C. (Accepted) · <span class="journal">Canadian Journal of Surgery</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <h3>Talks</h3>
+        <div class="pub-list">
+          <div class="talk-entry">
+            <div class="t-title">Perioperative Morbidity and Mortality Following Elective Spinal Surgery in Octogenarians and Beyond: A Systematic Review and Meta-Analysis</div>
+            <div class="t-meta">Global Spine Congress (GSC), Istanbul, Turkey · 2026</div>
+          </div>
+          <div class="talk-entry">
+            <div class="t-title">Fooled or Enlightened by Frequency: When Frequency Tricks Decision-Making</div>
+            <div class="t-meta">Canadian Society for Brain, Behaviour and Cognitive Science, York University · 2026</div>
+          </div>
+          <div class="talk-entry">
+            <div class="t-title">Fooled by Frequency—or Enlightened by It?</div>
+            <div class="t-meta">Society for Judgment and Decision Making, San Diego, California · 2026 (upcoming)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <h3>Conference Presentations</h3>
+        <div class="pub-list">
+          <div class="talk-entry">
+            <div class="t-title">Why do People Choose Sub-optimal Choices?</div>
+            <div class="t-meta">Poster · Annual University of Toronto Undergraduate Research Day · 2026</div>
+          </div>
+          <div class="talk-entry">
+            <div class="t-title">Elective Spine Surgery in Octogenarians: Early Postoperative Mortality and Morbidity</div>
+            <div class="t-meta">Poster · 26th Annual Scientific Conference of the Canadian Spine Society, Alberta · 2026</div>
+          </div>
+          <div class="talk-entry">
+            <div class="t-title">Fooled by Frequency: Individual Differences in Frequency Bias and Recovery</div>
+            <div class="t-meta">Poster · 53rd Annual Lake Ontario Visionary Establishment (LOVE) Conference · 2026</div>
+          </div>
+          <div class="talk-entry">
+            <div class="t-title">Neural Correlates of Arbitrary Predictions in Perceptual Categorization</div>
+            <div class="t-meta">Poster · Annual Experiential Education Fair, University of Toronto · 2025</div>
+          </div>
+          <div class="talk-entry">
+            <div class="t-title">Neural Correlates of Arbitrary Predictions in Perceptual Categorization</div>
+            <div class="t-meta">Poster · Summer Undergraduate Psychology Exhibition of Research · 2025</div>
+          </div>
+          <div class="talk-entry">
+            <div class="t-title">Arbitrary and Explicit Predictions can Bias Perceptual Categorization</div>
+            <div class="t-meta">Poster · Vision Sciences Society Annual Meeting · 2025</div>
+          </div>
+          <div class="talk-entry">
+            <div class="t-title">Arbitrary and Explicit Predictions can Bias Perceptual Categorization</div>
+            <div class="t-meta">Poster · Annual University of Toronto Undergraduate Research Day · 2025</div>
+          </div>
+          <div class="talk-entry">
+            <div class="t-title">Arbitrary and Explicit Predictions can Bias Perceptual Categorization</div>
+            <div class="t-meta">Poster · 52nd Annual Lake Ontario Visionary Establishment (LOVE) Conference · 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-block">
+        <h3>Skills &amp; Methods</h3>
+        <div class="skills-grid">
+          <span class="skill-pill">EEG</span>
+          <span class="skill-pill">MRI / fMRI Preprocessing</span>
+          <span class="skill-pill">MATLAB</span>
+          <span class="skill-pill">R</span>
+          <span class="skill-pill">Experimental Design</span>
+          <span class="skill-pill">Behavioural Testing</span>
+          <span class="skill-pill">Systematic Reviews</span>
+          <span class="skill-pill">SONA Scheduling</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Projects</h2>
+        <div class="section-note">Interactive breakdowns of published work.</div>
+      </div>
+      <p class="project-intro">Each card will open into a full interactive page with the paper's data, charted and explained in plain language. Pages are being built out one at a time — for now, click through for a preview.</p>
+
+      <div class="project-grid" id="project-grid"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> Daniel Nikitin</div>
+</footer>
+
+<script>
+/* ============================================================
+   Projects — one card per accepted paper. Each links to a full
+   page (project.html?paper=slug) that will eventually hold an
+   interactive chart of that paper's data. Add a new object here
+   the moment a new paper is accepted.
+   ============================================================ */
+const PROJECTS = [
+  {
+    slug: "spine-mortality-80",
+    status: "Spine Open · 2026",
+    title: "Early Postoperative Mortality and Morbidity Following Elective Spine Surgery in Patients Over 80",
+    blurb: "Systematic review & meta-analysis of surgical outcomes in octogenarians."
+  },
+  {
+    slug: "thoracolumbar-infection",
+    status: "JAAOS Global Research & Reviews · Accepted",
+    title: "Surgical Decision-Making in the Infected Thoracolumbar Spine",
+    blurb: "Managing deep surgical site infection after instrumented fusion."
+  }
+];
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const grid = document.getElementById('project-grid');
+PROJECTS.forEach(p => {
+  const card = document.createElement('a');
+  card.className = 'project-card';
+  card.href = `project.html?paper=${p.slug}`;
+  card.innerHTML = `
+    <span class="project-status">${p.status}</span>
+    <h3>${p.title}</h3>
+    <p>${p.blurb}</p>
+    <div class="project-open">View interactive breakdown →</div>
+  `;
+  grid.appendChild(card);
+});
+
+/* ---------- Nav active state ---------- */
+const navLinks = document.querySelectorAll('.navlink');
+const sections = ['home','cv','projects'].map(id => document.getElementById(id));
+function updateNav(){
+  let current = sections[0].id;
+  const y = window.scrollY + window.innerHeight * 0.35;
+  sections.forEach(s => { if (s.offsetTop <= y) current = s.id; });
+  navLinks.forEach(l => l.classList.toggle('active', l.dataset.nav === current));
+}
+window.addEventListener('scroll', updateNav, { passive:true });
+updateNav();
+
+/* ============================================================
+   Interactive brain canvas — a field of neuron nodes anchored
+   near the portrait, drifting and reacting to the mouse and
+   scroll. See project.html for the lighter ambient-only version.
+   ============================================================ */
+(function(){
+  const canvas = document.getElementById('brain-canvas');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W, H, DPR;
+  let nodes = [];
+  let mouse = { x:-9999, y:-9999, active:false };
+  const portrait = document.querySelector('.portrait-frame');
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W*DPR; canvas.height = H*DPR;
+    canvas.style.width = W+'px'; canvas.style.height = H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    buildNodes();
+  }
+
+  function brainPoints(cx, cy, r, count){
+    const pts = [];
+    for(let i=0;i<count;i++){
+      const t = (i/count) * Math.PI * 2;
+      const lobe = 1 + 0.16*Math.sin(t*5) + 0.10*Math.sin(t*9+1);
+      const side = t < Math.PI ? 1 : -1;
+      const rad = r * lobe;
+      pts.push({ x: cx + Math.cos(t)*rad*0.95 + side*2, y: cy + Math.sin(t)*rad*0.72 });
+    }
+    return pts;
+  }
+
+  function buildNodes(){
+    nodes = [];
+    let anchor = { x: W*0.78, y: H*0.34 };
+    if (portrait){
+      const r = portrait.getBoundingClientRect();
+      if (r.width > 0) anchor = { x: r.left + r.width/2, y: r.top + r.height/2 };
+    }
+    const radius = Math.min(W,H) * 0.16;
+    const clusterCount = W < 700 ? 20 : 34;
+    brainPoints(anchor.x, anchor.y, radius, clusterCount).forEach(p => {
+      nodes.push({ baseX:p.x, baseY:p.y, x:p.x, y:p.y, vx:0, vy:0, cluster:true, r:1.6+Math.random()*1.2, phase: Math.random()*Math.PI*2 });
+    });
+    const ambientCount = W < 700 ? 18 : 40;
+    for(let i=0;i<ambientCount;i++){
+      const x = Math.random()*W, y = Math.random()*H;
+      nodes.push({ baseX:x, baseY:y, x, y, vx:0, vy:0, cluster:false, r:1+Math.random()*1.1, phase: Math.random()*Math.PI*2 });
+    }
+  }
+
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e => { mouse.x=e.clientX; mouse.y=e.clientY; mouse.active=true; });
+  window.addEventListener('mouseleave', () => { mouse.active=false; });
+  window.addEventListener('scroll', () => {
+    if (portrait){
+      const r = portrait.getBoundingClientRect();
+      if (r.width > 0){
+        const cx = r.left + r.width/2, cy = r.top + r.height/2;
+        const c = clusterCenter();
+        const dx = cx - c.x, dy = cy - c.y;
+        nodes.filter(n=>n.cluster).forEach(n => { n.baseX += dx; n.baseY += dy; });
+      }
+    }
+  }, { passive:true });
+
+  function clusterCenter(){
+    const c = nodes.filter(n=>n.cluster);
+    if (!c.length) return {x:W/2,y:H/2};
+    const sx = c.reduce((a,n)=>a+n.baseX,0)/c.length;
+    const sy = c.reduce((a,n)=>a+n.baseY,0)/c.length;
+    return {x:sx,y:sy};
+  }
+
+  let t = 0;
+  function tick(){
+    t += reduceMotion ? 0.002 : 0.006;
+    ctx.clearRect(0,0,W,H);
+
+    nodes.forEach(n => {
+      const driftX = Math.sin(t*1.3+n.phase) * (n.cluster?3.5:10);
+      const driftY = Math.cos(t*1.1+n.phase) * (n.cluster?3.5:10);
+      let tx = n.baseX+driftX, ty = n.baseY+driftY;
+      if (mouse.active && !reduceMotion){
+        const dx = tx-mouse.x, dy = ty-mouse.y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        const range = 130;
+        if (dist < range){
+          const force = (1-dist/range)*22;
+          tx += (dx/(dist||1))*force; ty += (dy/(dist||1))*force;
+        }
+      }
+      n.x += (tx-n.x)*0.06; n.y += (ty-n.y)*0.06;
+    });
+
+    const maxDist = 120;
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i], b=nodes[j];
+        if (a.cluster !== b.cluster && Math.random() > 0.15) continue;
+        const dx=a.x-b.x, dy=a.y-b.y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        const lim = a.cluster && b.cluster ? maxDist : maxDist*1.6;
+        if (dist < lim){
+          const nearMouse = mouse.active && (Math.hypot(a.x-mouse.x,a.y-mouse.y)<140 || Math.hypot(b.x-mouse.x,b.y-mouse.y)<140);
+          const alpha = (1-dist/lim) * (a.cluster?0.5:0.22);
+          ctx.strokeStyle = nearMouse ? `rgba(232,163,61,${Math.min(alpha*2.2,0.85)})` : `rgba(124,140,255,${alpha})`;
+          ctx.lineWidth = nearMouse ? 1.1 : 0.6;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+
+    nodes.forEach(n => {
+      const nearMouse = mouse.active && Math.hypot(n.x-mouse.x,n.y-mouse.y)<140;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, nearMouse ? n.r*2.2 : n.r, 0, Math.PI*2);
+      ctx.fillStyle = nearMouse ? '#E8A33D' : (n.cluster ? 'rgba(237,234,227,0.55)' : 'rgba(237,234,227,0.28)');
+      ctx.fill();
+    });
+
+    requestAnimationFrame(tick);
+  }
+
+  resize();
+  requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>

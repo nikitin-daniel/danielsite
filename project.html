@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project — Daniel Nikitin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     EDIT ME — when a paper's data is ready, find its slug in the
+     PAPERS object below and replace comingSoon:true with real
+     figure/graph markup (Chart.js, SVG, whatever fits the data).
+     ============================================================ */
+  :root{
+    --bg:#0A0B14; --surface:#12131F; --surface-2:#171827;
+    --line:rgba(237,234,227,0.09); --line-strong:rgba(237,234,227,0.16);
+    --text:#EDEAE3; --text-muted:#8D90A3; --text-faint:#5B5E70;
+    --signal:#E8A33D; --synapse:#7C8CFF;
+    --display:'Fraunces', serif; --body:'IBM Plex Sans', sans-serif; --mono:'JetBrains Mono', monospace;
+    --maxw: 880px;
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  #brain-canvas{ position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+  a{ color:inherit; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; }
+  h1,h2,h3{ font-family:var(--display); font-weight:450; margin:0; }
+
+  header{ position:sticky; top:0; z-index:50; backdrop-filter:blur(10px); background:rgba(10,11,20,0.72); border-bottom:1px solid var(--line); }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:1120px; margin:0 auto; }
+  .brand{ font-family:var(--mono); font-size:13px; letter-spacing:0.08em; color:var(--text-muted); text-decoration:none; }
+  .brand b{ color:var(--signal); font-weight:500; }
+  .back-link{ font-family:var(--mono); font-size:12.5px; letter-spacing:0.08em; color:var(--text-muted); text-decoration:none; display:flex; align-items:center; gap:8px; transition:color .2s ease; }
+  .back-link:hover{ color:var(--signal); }
+
+  main{ position:relative; z-index:1; padding:100px 0 120px; }
+
+  .status{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--synapse); margin-bottom:22px; display:flex; align-items:center; gap:10px; }
+  .status::before{ content:""; width:26px; height:1px; background:var(--synapse); display:inline-block; }
+  h1{ font-size:clamp(30px, 4vw, 44px); line-height:1.15; max-width:22ch; }
+
+  .placeholder-chart{
+    margin-top:54px; border:1px dashed var(--line-strong); border-radius:16px;
+    padding:64px 32px; text-align:center; background:var(--surface);
+  }
+  .placeholder-chart svg{ width:64px; height:64px; opacity:0.45; margin-bottom:22px; }
+  .placeholder-chart h2{ font-size:22px; margin-bottom:10px; }
+  .placeholder-chart p{ color:var(--text-muted); font-size:14.5px; max-width:44ch; margin:0 auto; }
+
+  .not-found{ color:var(--text-muted); }
+  .not-found a{ color:var(--signal); text-decoration:underline; }
+
+  footer{ position:relative; z-index:1; padding:40px 0 60px; text-align:center; font-family:var(--mono); font-size:11.5px; color:var(--text-faint); }
+</style>
+</head>
+<body>
+
+<canvas id="brain-canvas"></canvas>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html#home" class="brand">◆ <b>DANIEL NIKITIN</b> — NEUROSCIENCE</a>
+    <a href="index.html#projects" class="back-link">← Back to projects</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap" id="content"></div>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> Daniel Nikitin</div>
+</footer>
+
+<script>
+/* ============================================================
+   EDIT ME — one entry per paper. Add a new object the moment a
+   new paper is accepted, matching the slug used in index.html's
+   PROJECTS array. Set comingSoon:false and add a `chartHTML`
+   string once the figure is ready.
+   ============================================================ */
+const PAPERS = {
+  "spine-mortality-80": {
+    status: "Spine Open · 2026",
+    title: "Early Postoperative Mortality and Morbidity Following Elective Spine Surgery in Patients Over 80",
+    comingSoon: true
+  },
+  "thoracolumbar-infection": {
+    status: "JAAOS Global Research & Reviews · Accepted",
+    title: "Surgical Decision-Making in the Infected Thoracolumbar Spine",
+    comingSoon: true
+  }
+};
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const params = new URLSearchParams(window.location.search);
+const slug = params.get('paper');
+const paper = PAPERS[slug];
+const content = document.getElementById('content');
+
+if (!paper){
+  content.innerHTML = `
+    <p class="not-found">Couldn't find that project. <a href="index.html#projects">Back to projects →</a></p>
+  `;
+} else {
+  content.innerHTML = `
+    <div class="status">${paper.status}</div>
+    <h1>${paper.title}</h1>
+    <div class="placeholder-chart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M4 19V5M4 19h16M8 19v-6M12 19V9M16 19v-3"/>
+      </svg>
+      <h2>Coming soon</h2>
+      <p>An interactive breakdown of this paper's data — charted and explained in plain language — is on the way.</p>
+    </div>
+  `;
+}
+
+/* ---------- Ambient brain canvas (lighter, no anchored cluster) ---------- */
+(function(){
+  const canvas = document.getElementById('brain-canvas');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W, H, DPR, nodes = [];
+  let mouse = { x:-9999, y:-9999, active:false };
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W*DPR; canvas.height = H*DPR;
+    canvas.style.width = W+'px'; canvas.style.height = H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    const count = W < 700 ? 26 : 50;
+    nodes = [];
+    for(let i=0;i<count;i++){
+      const x = Math.random()*W, y = Math.random()*H;
+      nodes.push({ baseX:x, baseY:y, x, y, r:1+Math.random()*1.1, phase: Math.random()*Math.PI*2 });
+    }
+  }
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e => { mouse.x=e.clientX; mouse.y=e.clientY; mouse.active=true; });
+  window.addEventListener('mouseleave', () => { mouse.active=false; });
+
+  let t = 0;
+  function tick(){
+    t += reduceMotion ? 0.002 : 0.006;
+    ctx.clearRect(0,0,W,H);
+    nodes.forEach(n => {
+      let tx = n.baseX + Math.sin(t*1.2+n.phase)*10;
+      let ty = n.baseY + Math.cos(t*1.0+n.phase)*10;
+      if (mouse.active && !reduceMotion){
+        const dx=tx-mouse.x, dy=ty-mouse.y, dist=Math.sqrt(dx*dx+dy*dy), range=130;
+        if (dist<range){ const f=(1-dist/range)*22; tx += (dx/(dist||1))*f; ty += (dy/(dist||1))*f; }
+      }
+      n.x += (tx-n.x)*0.06; n.y += (ty-n.y)*0.06;
+    });
+    const maxDist = 130;
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i], b=nodes[j];
+        const dx=a.x-b.x, dy=a.y-b.y, dist=Math.sqrt(dx*dx+dy*dy);
+        if (dist<maxDist){
+          const nearMouse = mouse.active && (Math.hypot(a.x-mouse.x,a.y-mouse.y)<140 || Math.hypot(b.x-mouse.x,b.y-mouse.y)<140);
+          const alpha = (1-dist/maxDist)*0.22;
+          ctx.strokeStyle = nearMouse ? `rgba(232,163,61,${Math.min(alpha*2.5,0.8)})` : `rgba(124,140,255,${alpha})`;
+          ctx.lineWidth = nearMouse ? 1 : 0.6;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+    nodes.forEach(n => {
+      const nearMouse = mouse.active && Math.hypot(n.x-mouse.x,n.y-mouse.y)<140;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, nearMouse? n.r*2.2 : n.r, 0, Math.PI*2);
+      ctx.fillStyle = nearMouse ? '#E8A33D' : 'rgba(237,234,227,0.3)';
+      ctx.fill();
+    });
+    requestAnimationFrame(tick);
+  }
+  resize();
+  requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>
