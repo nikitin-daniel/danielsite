@@ -64,6 +64,81 @@
   .not-found{ color:var(--text-muted); }
   .not-found a{ color:var(--signal); text-decoration:underline; }
 
+  /* ---------- Paper breakdown ---------- */
+  .paper-sub{ color:var(--text-muted); font-size:15.5px; max-width:56ch; margin-top:18px; }
+  .viz-section{ margin-top:64px; padding-top:44px; border-top:1px solid var(--line); }
+  .viz-section h2{ font-size:24px; margin-bottom:10px; }
+  .viz-section .lede{ color:var(--text-muted); font-size:14.5px; max-width:58ch; margin:0 0 30px; }
+  .viz-note{ font-family:var(--mono); font-size:11.5px; color:var(--text-faint); margin-top:16px; max-width:60ch; }
+
+  /* headline stat */
+  .headline-stat{ display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:28px; }
+  .headline-stat .big{ font-family:var(--display); font-size:clamp(52px,8vw,84px); color:var(--signal); line-height:1; }
+  .headline-stat .big-label{ font-size:15px; color:var(--text-muted); max-width:26ch; }
+
+  /* pictogram */
+  .pictogram-grid{ display:grid; grid-template-columns:repeat(10,1fr); gap:6px; max-width:420px; }
+  .pictogram-grid .dot{
+    width:100%; aspect-ratio:1/1; border-radius:50%; background:rgba(237,234,227,0.16);
+    cursor:pointer; transition:transform .15s ease, background .15s ease;
+  }
+  .pictogram-grid .dot.ok{ background:var(--signal); }
+  .pictogram-grid .dot.risk{ background:var(--synapse); }
+  .pictogram-grid .dot:hover{ transform:scale(1.35); }
+  .pictogram-legend{ display:flex; gap:22px; margin-top:18px; flex-wrap:wrap; }
+  .pictogram-legend span{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12px; color:var(--text-muted); }
+  .pictogram-legend i{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+
+  /* stat cards */
+  .statcards{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .statcard{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px; cursor:default; transition:border-color .2s ease, background .2s ease; }
+  .statcard:hover{ border-color:var(--line-strong); background:var(--surface-2); }
+  .statcard .num{ font-family:var(--display); font-size:34px; color:var(--text); }
+  .statcard .num span{ color:var(--synapse); }
+  .statcard .lbl{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); margin-top:6px; }
+  .statcard .track{ height:6px; border-radius:999px; background:rgba(237,234,227,0.1); margin-top:14px; overflow:hidden; }
+  .statcard .fill{ height:100%; border-radius:999px; background:var(--synapse); }
+  .statcard .sub{ font-size:11.5px; color:var(--text-faint); margin-top:10px; font-family:var(--mono); }
+
+  /* study bar chart */
+  .studychart{ position:relative; margin-top:8px; --chart-label-w:120px; --chart-val-w:52px; --chart-gap:12px; }
+  .studychart-row{ display:grid; grid-template-columns:var(--chart-label-w) 1fr var(--chart-val-w); align-items:center; gap:var(--chart-gap); padding:7px 0; }
+  .studychart-name{ font-family:var(--mono); font-size:11.5px; color:var(--text-muted); }
+  .studychart-track{ position:relative; height:16px; background:rgba(237,234,227,0.06); border-radius:4px; overflow:visible; }
+  .studychart-fill{ height:100%; border-radius:4px; background:var(--synapse); cursor:pointer; transition:background .15s ease, filter .15s ease; }
+  .studychart-fill:hover{ background:var(--signal); filter:brightness(1.1); }
+  .studychart-val{ font-family:var(--mono); font-size:11.5px; color:var(--text-faint); text-align:right; }
+  .studychart-avg{ position:absolute; top:-6px; bottom:-6px; width:0; border-left:1px dashed var(--signal); }
+  .studychart-avg-label{ position:absolute; top:-20px; font-family:var(--mono); font-size:10px; color:var(--signal); transform:translateX(-50%); white-space:nowrap; }
+  .studychart-track-wrap{ position:relative; }
+
+  /* tooltip */
+  #viz-tooltip{
+    position:fixed; pointer-events:none; z-index:200; background:var(--surface-2); border:1px solid var(--line-strong);
+    border-radius:8px; padding:8px 12px; font-family:var(--mono); font-size:11.5px; color:var(--text);
+    opacity:0; transition:opacity .12s ease; transform:translate(-50%,-120%); white-space:nowrap;
+  }
+  #viz-tooltip.show{ opacity:1; }
+
+  .takeaways{ display:flex; flex-direction:column; gap:14px; }
+  .takeaway{ display:flex; gap:14px; align-items:flex-start; }
+  .takeaway .mark{ font-family:var(--mono); color:var(--signal); font-size:13px; padding-top:2px; }
+  .takeaway p{ margin:0; color:var(--text-muted); font-size:14.5px; }
+  .takeaway p b{ color:var(--text); font-weight:500; }
+
+  .source-link{
+    display:inline-flex; align-items:center; gap:8px; margin-top:20px; text-decoration:none;
+    font-family:var(--mono); font-size:12.5px; color:var(--text); padding:10px 16px;
+    border:1px solid var(--line-strong); border-radius:999px; transition:border-color .2s ease, background .2s ease;
+  }
+  .source-link:hover{ border-color:var(--signal); background:rgba(232,163,61,0.08); }
+
+  @media (max-width: 640px){
+    .statcards{ grid-template-columns:1fr; }
+    .studychart{ --chart-label-w:84px; --chart-val-w:42px; --chart-gap:8px; }
+    .pictogram-grid{ max-width:100%; }
+  }
+
   footer{ position:relative; z-index:1; padding:40px 0 60px; text-align:center; font-family:var(--mono); font-size:11.5px; color:var(--text-faint); }
 </style>
 </head>
@@ -97,7 +172,7 @@ const PAPERS = {
   "spine-mortality-80": {
     status: "Spine Open · 2026",
     title: "Early Postoperative Mortality and Morbidity Following Elective Spine Surgery in Patients Over 80",
-    comingSoon: true
+    custom: "spineMortality"
   },
   "thoracolumbar-infection": {
     status: "JAAOS Global Research & Reviews · Accepted",
@@ -117,6 +192,8 @@ if (!paper){
   content.innerHTML = `
     <p class="not-found">Couldn't find that project. <a href="index.html#projects">Back to projects →</a></p>
   `;
+} else if (paper.custom === 'spineMortality'){
+  renderSpineMortality();
 } else {
   content.innerHTML = `
     <div class="status">${paper.status}</div>
@@ -130,6 +207,191 @@ if (!paper){
     </div>
   `;
 }
+
+/* ============================================================
+   Custom interactive breakdown: "Early Postoperative Mortality
+   and Morbidity Following Elective Spine Surgery in Patients
+   Over 80" — pulled from the paper's pooled meta-analysis
+   figures (Tables 1, 4 & 5, Figure 2).
+   ============================================================ */
+function renderSpineMortality(){
+  // 30-day survival by study (Table 1), sorted ascending, % survived
+  const survivalByStudy = [
+    { name:"Stovell 2014", value:86.57 },
+    { name:"Shiban 2020", value:88.46 },
+    { name:"Vonck 2018", value:89.99 },
+    { name:"Sanusi 2024", value:95.51 },
+    { name:"Rychen 2019", value:97.10 },
+    { name:"Rajpal 2018", value:97.89 },
+    { name:"Yoshihara 2014", value:99.40 },
+    { name:"Oichi 2019", value:99.84 },
+    { name:"Kuo 2022", value:100 },
+    { name:"Kramer 1988", value:100 },
+    { name:"Mihailidis 2017", value:100 },
+    { name:"Wang 2015", value:100 }
+  ];
+
+  // Any-complication rate by study (Table 5), sorted ascending, %
+  const complicationsByStudy = [
+    { name:"Sanusi 2024", value:4.9 },
+    { name:"Kuo 2022", value:5.7 },
+    { name:"Vonck 2018", value:6.0 },
+    { name:"Oichi 2019", value:15.1 },
+    { name:"Wang 2015", value:15.4 },
+    { name:"Yoshihara 2014", value:16.3 },
+    { name:"Kramer 1988", value:18.2 },
+    { name:"Stovell 2014", value:24.6 },
+    { name:"Rychen 2019", value:47.8 },
+    { name:"Mihailidis 2017", value:63.6 }
+  ];
+
+  content.innerHTML = `
+    <div class="status">${paper.status}</div>
+    <h1>${paper.title}</h1>
+    <p class="paper-sub">Spine surgery gets riskier as we age — or does it? This review pooled data from
+      <b style="color:var(--text)">89,529 patients aged 80 and up</b> across 12 studies to find out what
+      actually happens after elective spine surgery in your 80s, 90s, and beyond.</p>
+
+    <div class="viz-section">
+      <h2>The headline number</h2>
+      <p class="lede">Across every study combined, short-term survival after elective spine surgery in patients 80+ was excellent.</p>
+      <div class="headline-stat">
+        <span class="big">98%</span>
+        <span class="big-label">survived the first 30 days after surgery (95% CI: 94–99%)</span>
+      </div>
+      <div id="pictogram" class="pictogram-grid"></div>
+      <div class="pictogram-legend">
+        <span><i style="background:var(--signal)"></i>Survived 30 days</span>
+        <span><i style="background:var(--synapse)"></i>Did not survive</span>
+      </div>
+      <p class="viz-note">Hover any dot. Each represents 1 out of every 100 patients, based on the pooled estimate across all 12 studies.</p>
+    </div>
+
+    <div class="viz-section">
+      <h2>But complications are common</h2>
+      <p class="lede">Surviving isn't the same as sailing through recovery. Roughly 1 in 6 patients experienced some kind of complication — though how often studies actually reported the details varied a lot.</p>
+      <div class="statcards">
+        <div class="statcard" data-tip="14,121 of 88,254 patients across 10 studies">
+          <div class="num">16<span>%</span></div>
+          <div class="lbl">Any complication</div>
+          <div class="track"><div class="fill" style="width:16%; background:var(--synapse);"></div></div>
+          <div class="sub">10 studies reported this</div>
+        </div>
+        <div class="statcard" data-tip="901 of 17,375 patients across 6 studies">
+          <div class="num">5<span>%</span></div>
+          <div class="lbl">Major complication</div>
+          <div class="track"><div class="fill" style="width:5%; background:var(--signal);"></div></div>
+          <div class="sub">6 studies reported this</div>
+        </div>
+        <div class="statcard" data-tip="1,699 of 17,327 patients across 4 studies">
+          <div class="num">10<span>%</span></div>
+          <div class="lbl">Minor complication</div>
+          <div class="track"><div class="fill" style="width:10%; background:rgba(237,234,227,0.5);"></div></div>
+          <div class="sub">4 studies reported this</div>
+        </div>
+      </div>
+      <p class="viz-note">"Major" means things like pneumonia, a heart attack, or a return to the ICU. "Minor" means things like a urinary tract infection or brief confusion. Hover a card for the raw numbers behind it — and note these three figures come from different, overlapping sets of studies, since fewer than half broke complications down by severity.</p>
+    </div>
+
+    <div class="viz-section">
+      <h2>Why the numbers swing so wildly</h2>
+      <p class="lede">One study reported a 4.9% complication rate. Another reported 63.6% — in the same age group, after the same kind of surgery. That spread is the real story here.</p>
+      <div class="studychart" id="complication-chart"></div>
+      <p class="viz-note">Dashed line marks the pooled average (16%). The swing reflects differences in patient health, how hospitals define and log a "complication," and how carefully each study tracked its patients — not necessarily how risky surgery actually is.</p>
+    </div>
+
+    <div class="viz-section">
+      <h2>30-day survival, study by study</h2>
+      <p class="lede">Even the lowest-surviving study still kept 86.6% of patients alive past 30 days.</p>
+      <div class="studychart" id="survival-chart"></div>
+      <p class="viz-note">Dashed line marks the pooled average (98%).</p>
+    </div>
+
+    <div class="viz-section">
+      <h2>So — is it safe?</h2>
+      <div class="takeaways">
+        <div class="takeaway"><span class="mark">→</span><p><b>Mostly, yes</b> — short-term survival is excellent, and age past 80 alone isn't a reason to rule out surgery.</p></div>
+        <div class="takeaway"><span class="mark">→</span><p><b>But plan for complications</b> — about 1 in 6 patients has one, so recovery isn't always smooth even when survival is.</p></div>
+        <div class="takeaway"><span class="mark">→</span><p><b>These are the healthiest 80-year-olds</b> — most patients in these studies were relatively fit (ASA I–III) going in, so real-world risk for frailer patients is likely higher than these numbers suggest.</p></div>
+        <div class="takeaway"><span class="mark">→</span><p><b>Frailty matters more than birthdays</b> — comorbidities and physical reserve predict complications better than chronological age does.</p></div>
+      </div>
+      <a class="source-link" href="https://journals.lww.com/spineopen/fulltext/2026/03010/early_postoperative_mortality_and_morbidity.5.aspx" target="_blank" rel="noopener">
+        Read the full paper in Spine Open →
+      </a>
+    </div>
+  `;
+
+  buildPictogram();
+  buildBarChart('complication-chart', complicationsByStudy, 16.00, '%');
+  buildBarChart('survival-chart', survivalByStudy, 98, '%');
+  setupStatcardTooltips();
+}
+
+function buildPictogram(){
+  const el = document.getElementById('pictogram');
+  let html = '';
+  for (let i = 1; i <= 100; i++){
+    const risk = i <= 2; // ~2 in 100 did not survive 30 days
+    html += `<div class="dot ${risk ? 'risk' : 'ok'}" data-tip="${risk ? 'Did not survive 30 days' : 'Survived 30 days'}"></div>`;
+  }
+  el.innerHTML = html;
+  el.querySelectorAll('.dot').forEach(dot => {
+    dot.addEventListener('mouseenter', e => showTip(e, dot.dataset.tip));
+    dot.addEventListener('mousemove', moveTip);
+    dot.addEventListener('mouseleave', hideTip);
+  });
+}
+
+function buildBarChart(containerId, data, avgValue, unit){
+  const el = document.getElementById(containerId);
+  const max = Math.max(...data.map(d => d.value), avgValue) * 1.08;
+  const frac = avgValue / max;
+  const avgLeft = `calc(var(--chart-label-w) + var(--chart-gap) + (100% - var(--chart-label-w) - var(--chart-val-w) - (2 * var(--chart-gap))) * ${frac})`;
+  let rows = data.map(d => {
+    const pct = (d.value / max) * 100;
+    return `
+      <div class="studychart-row">
+        <div class="studychart-name">${d.name}</div>
+        <div class="studychart-track-wrap">
+          <div class="studychart-track">
+            <div class="studychart-fill" style="width:${pct}%" data-tip="${d.name}: ${d.value}${unit}"></div>
+          </div>
+        </div>
+        <div class="studychart-val">${d.value}${unit}</div>
+      </div>
+    `;
+  }).join('');
+  el.innerHTML = `
+    <div style="position:relative;">
+      <div class="studychart-avg" style="left:${avgLeft}">
+        <div class="studychart-avg-label">avg</div>
+      </div>
+      ${rows}
+    </div>
+  `;
+  el.querySelectorAll('.studychart-fill').forEach(bar => {
+    bar.addEventListener('mouseenter', e => showTip(e, bar.dataset.tip));
+    bar.addEventListener('mousemove', moveTip);
+    bar.addEventListener('mouseleave', hideTip);
+  });
+}
+
+function setupStatcardTooltips(){
+  document.querySelectorAll('.statcard[data-tip]').forEach(card => {
+    card.addEventListener('mouseenter', e => showTip(e, card.dataset.tip));
+    card.addEventListener('mousemove', moveTip);
+    card.addEventListener('mouseleave', hideTip);
+  });
+}
+
+/* ---------- Shared tooltip ---------- */
+const tipEl = document.createElement('div');
+tipEl.id = 'viz-tooltip';
+document.body.appendChild(tipEl);
+function showTip(e, text){ tipEl.textContent = text; tipEl.classList.add('show'); moveTip(e); }
+function moveTip(e){ tipEl.style.left = e.clientX + 'px'; tipEl.style.top = e.clientY + 'px'; }
+function hideTip(){ tipEl.classList.remove('show'); }
+
 
 /* ---------- Ambient brain canvas (lighter, no anchored cluster) ---------- */
 (function(){
