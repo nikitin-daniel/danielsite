@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Project — Daniel Nikitin</title>
+<meta name="description" content="Interactive, plain-language breakdowns of Daniel Nikitin's published research — spine surgery outcomes, decision-making, and reward processing.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Daniel Nikitin">
+<meta property="og:title" content="Research Breakdown — Daniel Nikitin">
+<meta property="og:description" content="Interactive, plain-language breakdowns of Daniel Nikitin's published research.">
+<meta property="og:image" content="https://danielnikitin.ca/profile_picture.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -22,7 +30,8 @@
     --maxw: 880px;
   }
   *{ box-sizing:border-box; }
-  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  html{ overflow-x: hidden; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x: hidden; }
   #brain-canvas{ position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
   a{ color:inherit; }
   .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; }
@@ -103,14 +112,14 @@
   /* study bar chart */
   .studychart{ position:relative; margin-top:8px; --chart-label-w:120px; --chart-val-w:52px; --chart-gap:12px; }
   .studychart-row{ display:grid; grid-template-columns:var(--chart-label-w) 1fr var(--chart-val-w); align-items:center; gap:var(--chart-gap); padding:7px 0; }
-  .studychart-name{ font-family:var(--mono); font-size:11.5px; color:var(--text-muted); }
+  .studychart-name{ font-family:var(--mono); font-size:11.5px; color:var(--text-muted); min-width:0; overflow-wrap:break-word; }
   .studychart-track{ position:relative; height:16px; background:rgba(237,234,227,0.06); border-radius:4px; overflow:visible; }
   .studychart-fill{ height:100%; border-radius:4px; background:var(--synapse); cursor:pointer; transition:background .15s ease, filter .15s ease; }
   .studychart-fill:hover{ background:var(--signal); filter:brightness(1.1); }
-  .studychart-val{ font-family:var(--mono); font-size:11.5px; color:var(--text-faint); text-align:right; }
+  .studychart-val{ font-family:var(--mono); font-size:11.5px; color:var(--text-faint); text-align:right; min-width:0; }
   .studychart-avg{ position:absolute; top:-6px; bottom:-6px; width:0; border-left:1px dashed var(--signal); }
   .studychart-avg-label{ position:absolute; top:-20px; font-family:var(--mono); font-size:10px; color:var(--signal); transform:translateX(-50%); white-space:nowrap; }
-  .studychart-track-wrap{ position:relative; }
+  .studychart-track-wrap{ position:relative; min-width:0; }
 
   /* tooltip */
   #viz-tooltip{
@@ -148,8 +157,8 @@
 
 <header>
   <div class="nav-inner">
-    <a href="index.html#home" class="brand">◆ <b>DANIEL NIKITIN</b><span class="brand-sub"> — NEUROSCIENCE</span></a>
-    <a href="index.html#projects" class="back-link">← Back to projects</a>
+    <a href="/#home" class="brand">◆ <b>DANIEL NIKITIN</b><span class="brand-sub"> — NEUROSCIENCE</span></a>
+    <a href="/#projects" class="back-link">← Back to projects</a>
   </div>
 </header>
 
@@ -188,9 +197,19 @@ const slug = params.get('paper');
 const paper = PAPERS[slug];
 const content = document.getElementById('content');
 
+if (paper){
+  document.title = `${paper.title} — Daniel Nikitin`;
+  const descMeta = document.querySelector('meta[name="description"]');
+  if (descMeta) descMeta.setAttribute('content', `${paper.title} — ${paper.status}. An interactive, plain-language breakdown of the research.`);
+  const canonical = document.createElement('link');
+  canonical.rel = 'canonical';
+  canonical.href = `https://danielnikitin.ca/project?paper=${slug}`;
+  document.head.appendChild(canonical);
+}
+
 if (!paper){
   content.innerHTML = `
-    <p class="not-found">Couldn't find that project. <a href="index.html#projects">Back to projects →</a></p>
+    <p class="not-found">Couldn't find that project. <a href="/#projects">Back to projects →</a></p>
   `;
 } else if (paper.custom === 'spineMortality'){
   renderSpineMortality();
