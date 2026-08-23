@@ -246,6 +246,23 @@
 </style>
 </head>
 <body>
+/* ================= DEV ENVIRONMENT ================= */
+.dev-banner{
+  position:fixed; left:0; right:0; bottom:0; z-index:9999;
+  background:rgba(232,163,61,.96); color:#0A0B14;
+  padding:9px 16px; text-align:center;
+  font-family:var(--mono); font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; font-weight:500;
+}
+.dev-banner a{ color:#0A0B14; font-weight:600; margin-left:10px; }
+</style>
+</head>
+<body>
+
+<div class="dev-banner">
+  DEV VERSION — changes here are not production
+  <a href="https://danielnikitin.ca/">View production site →</a>
+</div>
 
 <canvas id="brain-canvas"></canvas>
 
