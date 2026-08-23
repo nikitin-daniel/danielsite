@@ -241,11 +241,18 @@
    PROJECTS array. Set comingSoon:false and add a `chartHTML`
    string once the figure is ready.
    ============================================================ */
+// EDIT ME: keep this in sync with the same constant in index.html
+const FREQ_BIAS_LIVE = false;
+
 const PAPERS = {
-  "fooled-by-frequency": {
+  "fooled-by-frequency": FREQ_BIAS_LIVE ? {
     status: "Thesis Research · In Preparation",
     title: "Fooled by Frequency—or Enlightened by It?",
     custom: "freqBias"
+  } : {
+    status: "Thesis Research · In Preparation",
+    title: "Fooled by Frequency—or Enlightened by It?",
+    comingSoon: true
   },
   "spine-mortality-80": {
     status: "Spine Open · 2026",
