@@ -115,6 +115,19 @@
   nav a.navlink:hover{ color: var(--text); background: var(--surface-2); }
   nav a.navlink.active{ color: var(--bg); background: var(--signal); }
 
+  @media (max-width: 640px){
+    .nav-inner{
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+    }
+    .brand{ font-size: 11.5px; }
+    .brand-sub{ display: none; }
+    nav ul{ justify-content: center; flex-wrap: wrap; gap: 4px; }
+    nav a.navlink{ padding: 6px 10px; font-size: 11px; letter-spacing: 0.08em; }
+  }
+
   main{ position:relative; z-index:1; }
   section{ padding: 140px 0 120px; border-bottom: 1px solid var(--line); }
   section:last-of-type{ border-bottom:none; }
@@ -238,7 +251,7 @@
 
 <header>
   <div class="nav-inner">
-    <a href="#home" class="brand">◆ <b>DANIEL NIKITIN</b> — NEUROSCIENCE</a>
+    <a href="#home" class="brand">◆ <b>DANIEL NIKITIN</b><span class="brand-sub"> — NEUROSCIENCE</span></a>
     <nav>
       <ul>
         <li><a href="#home" class="navlink" data-nav="home">HOME</a></li>
