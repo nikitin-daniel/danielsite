@@ -146,7 +146,71 @@
     .statcards{ grid-template-columns:1fr; }
     .studychart{ --chart-label-w:84px; --chart-val-w:42px; --chart-gap:8px; }
     .pictogram-grid{ max-width:100%; }
+    .machine-row{ grid-template-columns:1fr; }
+    .theory-cards{ grid-template-columns:1fr; }
+    .sim-machines{ grid-template-columns:1fr; }
   }
+
+  /* ---------- Frequency-bias breakdown ---------- */
+  .machine-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:8px; }
+  .machine-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px;
+    cursor:pointer; text-align:center; transition:border-color .2s ease, background .2s ease, transform .15s ease;
+  }
+  .machine-card:hover{ border-color:var(--line-strong); background:var(--surface-2); transform:translateY(-2px); }
+  .machine-card.chosen{ border-color:var(--signal); background:rgba(232,163,61,0.08); }
+  .machine-card .m-icon{ font-size:32px; margin-bottom:10px; }
+  .machine-card .m-name{ font-family:var(--display); font-size:19px; margin-bottom:8px; }
+  .machine-card .m-stat{ font-family:var(--mono); font-size:12.5px; color:var(--text-muted); }
+  .machine-card .m-btn{
+    margin-top:16px; font-family:var(--mono); font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--signal); border:1px solid var(--line-strong); border-radius:999px; padding:8px 16px; display:inline-block;
+  }
+  .reveal-box{
+    margin-top:22px; background:var(--surface); border:1px solid var(--line-strong); border-radius:14px;
+    padding:22px 24px; font-size:14.5px; color:var(--text-muted); display:none;
+  }
+  .reveal-box.show{ display:block; animation:fadein .3s ease; }
+  .reveal-box b{ color:var(--text); }
+  @keyframes fadein{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+
+  .theory-cards{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:8px; }
+  .theory-card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px; }
+  .theory-card h3{ font-size:17px; margin-bottom:10px; }
+  .theory-card p{ color:var(--text-muted); font-size:13.5px; margin:0; }
+  .verdict{
+    display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
+    text-transform:uppercase; color:#ff8fa3; border:1px solid rgba(255,143,163,0.35); background:rgba(255,143,163,0.08);
+    padding:4px 10px; border-radius:999px; margin-bottom:14px;
+  }
+
+  .compare-cards{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:8px; }
+  .compare-card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px; position:relative; }
+  .compare-card .c-label{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); margin-bottom:10px; }
+  .compare-card .c-num{ font-family:var(--display); font-size:32px; color:var(--text); }
+  .compare-card .c-track{ position:relative; height:10px; border-radius:999px; background:rgba(237,234,227,0.08); margin-top:14px; }
+  .compare-card .c-fill{ height:100%; border-radius:999px; background:var(--synapse); }
+  .compare-card .c-true{ position:absolute; top:-4px; bottom:-4px; width:0; border-left:1px dashed var(--signal); }
+  .compare-card .c-true-label{ position:absolute; top:-18px; font-family:var(--mono); font-size:9.5px; color:var(--signal); transform:translateX(-50%); white-space:nowrap; }
+
+  .sim-machines{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:24px; }
+  .sim-machine{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; }
+  .sim-machine .s-name{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); }
+  .sim-machine .s-record{ font-family:var(--mono); font-size:12px; color:var(--text-faint); margin-top:6px; }
+  .sim-machine .s-estimate{ font-family:var(--display); font-size:36px; color:var(--text); margin-top:10px; }
+  .sim-machine .s-track{ height:8px; border-radius:999px; background:rgba(237,234,227,0.08); margin-top:12px; overflow:hidden; }
+  .sim-machine .s-fill{ height:100%; border-radius:999px; background:var(--synapse); transition:width .4s ease; }
+  .sim-machine .s-certainty{ font-family:var(--mono); font-size:10.5px; color:var(--text-faint); margin-top:10px; }
+  .sim-machine .s-cbar{ height:5px; border-radius:999px; background:rgba(237,234,227,0.08); margin-top:5px; overflow:hidden; }
+  .sim-machine .s-cfill{ height:100%; border-radius:999px; background:var(--signal); transition:width .4s ease; }
+  .sim-controls{ display:flex; gap:12px; margin-top:20px; flex-wrap:wrap; align-items:center; }
+  .sim-btn{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.05em; color:var(--bg); background:var(--signal);
+    border:none; border-radius:999px; padding:11px 20px; cursor:pointer; transition:filter .15s ease, transform .15s ease;
+  }
+  .sim-btn:hover{ filter:brightness(1.1); transform:translateY(-1px); }
+  .sim-btn.secondary{ background:transparent; color:var(--text-muted); border:1px solid var(--line-strong); }
+  .sim-reveal{ font-family:var(--mono); font-size:12px; color:var(--text-faint); }
 
   footer{ position:relative; z-index:1; padding:40px 0 60px; text-align:center; font-family:var(--mono); font-size:11.5px; color:var(--text-faint); }
 </style>
@@ -178,6 +242,11 @@
    string once the figure is ready.
    ============================================================ */
 const PAPERS = {
+  "fooled-by-frequency": {
+    status: "Thesis Research · In Preparation",
+    title: "Fooled by Frequency—or Enlightened by It?",
+    custom: "freqBias"
+  },
   "spine-mortality-80": {
     status: "Spine Open · 2026",
     title: "Early Postoperative Mortality and Morbidity Following Elective Spine Surgery in Patients Over 80",
@@ -213,6 +282,8 @@ if (!paper){
   `;
 } else if (paper.custom === 'spineMortality'){
   renderSpineMortality();
+} else if (paper.custom === 'freqBias'){
+  renderFrequencyBias();
 } else {
   content.innerHTML = `
     <div class="status">${paper.status}</div>
@@ -233,6 +304,240 @@ if (!paper){
    Over 80" — pulled from the paper's pooled meta-analysis
    figures (Tables 1, 4 & 5, Figure 2).
    ============================================================ */
+/* ============================================================
+   Custom interactive breakdown: "Fooled by Frequency—or
+   Enlightened by It?" — built from the paper's own arcade-machine
+   analogy plus its real Experiment 1 & 2 findings (Figs 2, 3, 5).
+   ============================================================ */
+function renderFrequencyBias(){
+  content.innerHTML = `
+    <div class="status">${paper.status}</div>
+    <h1>${paper.title}</h1>
+    <p class="paper-sub">Ever trust the busier restaurant over the empty one next door, even when you have no idea if the food's actually better? That instinct has a name — and it turns out your brain might be smarter about it than psychologists gave it credit for.</p>
+
+    <div class="viz-section">
+      <h2>🎮 You're at the arcade</h2>
+      <p class="lede">You watch a friend play two machines before it's your turn. Which one do you pick?</p>
+      <div class="machine-row">
+        <div class="machine-card" id="machine-a">
+          <div class="m-icon">🕹️</div>
+          <div class="m-name">Machine A</div>
+          <div class="m-stat">Played 10 times · 8 wins</div>
+          <div class="m-btn">Play this one</div>
+        </div>
+        <div class="machine-card" id="machine-b">
+          <div class="m-icon">🕹️</div>
+          <div class="m-name">Machine B</div>
+          <div class="m-stat">Played 5 times · 4 wins</div>
+          <div class="m-btn">Play this one</div>
+        </div>
+      </div>
+      <div class="reveal-box" id="arcade-reveal"></div>
+    </div>
+
+    <div class="viz-section">
+      <h2>Most people pick the busier machine</h2>
+      <p class="lede">In real experiments with 173 university students, this exact setup was tested again and again. When one option was shown far more often than the other (70% of the time vs. 30%), a clear pattern emerged — even when both options had <b style="color:var(--text)">identical odds</b>.</p>
+      <div class="compare-cards">
+        <div class="compare-card">
+          <div class="c-label">Seen 70% of the time</div>
+          <div class="c-num">~75<span style="font-size:18px">%</span></div>
+          <div class="c-track"><div class="c-fill" style="width:75%; background:var(--signal);"></div></div>
+        </div>
+        <div class="compare-card">
+          <div class="c-label">Seen 50% of the time</div>
+          <div class="c-num">~50<span style="font-size:18px">%</span></div>
+          <div class="c-track"><div class="c-fill" style="width:50%; background:var(--synapse);"></div></div>
+        </div>
+      </div>
+      <p class="viz-note">Approximate share of participants who chose the more-often-seen option, even when both machines paid out at the exact same 80% rate. Sample it more, and it starts to feel like the safer bet — that's the "frequency bias."</p>
+    </div>
+
+    <div class="viz-section">
+      <h2>So... are we being fooled?</h2>
+      <p class="lede">Scientists had two ideas for why this happens. Both got put on trial across two experiments.</p>
+      <div class="theory-cards">
+        <div class="theory-card">
+          <div class="verdict">✕ Not guilty</div>
+          <h3>Theory 1: "It looks better than it is"</h3>
+          <p>Maybe seeing an option more often makes it <i>seem</i> more rewarding than it really is — an illusion of quality. If true, people would guess win rates <b style="color:var(--text)">higher</b> than reality for the option they'd seen more.</p>
+        </div>
+        <div class="theory-card">
+          <div class="verdict">✕ Not guilty</div>
+          <h3>Theory 2: "It just feels more certain"</h3>
+          <p>Maybe seeing an option more often just makes people <i>feel</i> more confident in their guess — whether or not the guess is any better. If true, confidence ratings would be higher for the frequently-seen option.</p>
+        </div>
+      </div>
+      <p class="viz-note">Neither panned out. Across 16 different conditions and two full experiments, people never guessed a win rate above the true rate for anything — and their confidence barely budged no matter how often they'd seen an option.</p>
+    </div>
+
+    <div class="viz-section">
+      <h2>What was actually happening: better guesses</h2>
+      <p class="lede">Here's the real finding, using an option with an actual 80% win rate as the example.</p>
+      <div class="compare-cards" id="accuracy-chart"></div>
+      <p class="viz-note">Hover a bar. Watching an option more often didn't inflate people's guesses past reality — it just let them get <i>closer</i> to it. Seen rarely, people undersold a genuinely good option by nearly 20 points.</p>
+    </div>
+
+    <div class="viz-section">
+      <h2>🔄 The plot twist</h2>
+      <p class="lede">Then the researchers flipped the setup: what if the option you'd seen more often was actually the <i>worse</i> one — a measly 20% win rate?</p>
+      <div class="compare-cards" id="reversal-chart"></div>
+      <p class="viz-note">The bias flipped right along with it. When the frequently-seen option was genuinely bad, people who'd watched it more were <i>less</i> likely to pick it — not more. That's the opposite of what "fooled by frequency" would predict.</p>
+    </div>
+
+    <div class="viz-section">
+      <h2>🎲 Try it yourself: watch the pattern emerge</h2>
+      <p class="lede">Two machines below secretly have the exact same odds. Every round, Machine A gets watched about 3x more than Machine B — just like the real experiment. Run a few rounds and watch what happens to your confidence in each one.</p>
+      <div class="sim-machines">
+        <div class="sim-machine">
+          <div class="s-name">Machine A · watched often</div>
+          <div class="s-record" id="sim-record-a">0 plays · 0 wins</div>
+          <div class="s-estimate" id="sim-estimate-a">—</div>
+          <div class="s-track"><div class="s-fill" id="sim-fill-a" style="width:0%"></div></div>
+          <div class="s-certainty">How sure you can be</div>
+          <div class="s-cbar"><div class="s-cfill" id="sim-cert-a" style="width:0%"></div></div>
+        </div>
+        <div class="sim-machine">
+          <div class="s-name">Machine B · watched rarely</div>
+          <div class="s-record" id="sim-record-b">0 plays · 0 wins</div>
+          <div class="s-estimate" id="sim-estimate-b">—</div>
+          <div class="s-track"><div class="s-fill" id="sim-fill-b" style="width:0%"></div></div>
+          <div class="s-certainty">How sure you can be</div>
+          <div class="s-cbar"><div class="s-cfill" id="sim-cert-b" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="sim-controls">
+        <button class="sim-btn" id="sim-run">Watch 10 more rounds</button>
+        <button class="sim-btn secondary" id="sim-reset-btn">Reset</button>
+        <span class="sim-reveal" id="sim-reveal-text"></span>
+      </div>
+    </div>
+
+    <div class="viz-section">
+      <h2>So what's actually going on?</h2>
+      <div class="takeaways">
+        <div class="takeaway"><span class="mark">→</span><p><b>It's not a glitch — it's a shortcut.</b> The "frequency bias" isn't your brain being fooled. It's your brain correctly noticing it has more evidence about one option than the other.</p></div>
+        <div class="takeaway"><span class="mark">→</span><p><b>More sampling → better guesses, not bigger ones.</b> People's estimates got closer to the truth with more exposure — they never overshot it.</p></div>
+        <div class="takeaway"><span class="mark">→</span><p><b>This is why the familiar feels safe.</b> The restaurant you've been to ten times, the brand you've bought before, the doctor you've seen for years — you're not just comfortable, you genuinely have better data.</p></div>
+        <div class="takeaway"><span class="mark">→</span><p><b>But it only works if you've actually sampled enough.</b> Trusting something after one good experience isn't the same as trusting it after ten.</p></div>
+      </div>
+      <a class="source-link" href="https://osf.io/fe3jg" target="_blank" rel="noopener">
+        View materials & data on OSF →
+      </a>
+    </div>
+  `;
+
+  setupArcadeDemo();
+  buildAccuracyChart();
+  buildReversalChart();
+  setupSimulator();
+}
+
+function setupArcadeDemo(){
+  const reveal = document.getElementById('arcade-reveal');
+  const text = `Both machines actually have the <b>exact same 80% win rate</b> — Machine A just got played twice as often. In the real study, when one option was sampled about 70% of the time, participants picked it roughly 75% of the time, even though the odds were identical. When both were sampled equally, choices split close to 50/50.`;
+  ['machine-a','machine-b'].forEach(id => {
+    document.getElementById(id).addEventListener('click', () => {
+      document.getElementById('machine-a').classList.toggle('chosen', id === 'machine-a');
+      document.getElementById('machine-b').classList.toggle('chosen', id === 'machine-b');
+      const picked = id === 'machine-a' ? 'Machine A — the one you saw more often' : 'Machine B — the one you saw less often';
+      reveal.innerHTML = `<b>You picked ${picked}.</b> ${text}`;
+      reveal.classList.add('show');
+    });
+  });
+}
+
+function buildAccuracyChart(){
+  const el = document.getElementById('accuracy-chart');
+  const rows = [
+    { label:'Seen often (70%)', value:80, trueVal:80, color:'var(--signal)', tip:'Estimated ~80% — right on target' },
+    { label:'Seen rarely (30%)', value:62, trueVal:80, color:'var(--synapse)', tip:'Estimated ~62% — underestimated by ~18 points' }
+  ];
+  el.innerHTML = rows.map(r => `
+    <div class="compare-card">
+      <div class="c-label">${r.label}</div>
+      <div class="c-num">~${r.value}<span style="font-size:18px">%</span></div>
+      <div class="c-track" data-tip="${r.tip}">
+        <div class="c-fill" style="width:${r.value}%; background:${r.color};"></div>
+        <div class="c-true" style="left:${r.trueVal}%"><div class="c-true-label">true rate</div></div>
+      </div>
+    </div>
+  `).join('');
+  el.querySelectorAll('.c-track').forEach(track => {
+    track.style.cursor = 'pointer';
+    track.addEventListener('mouseenter', e => showTip(e, track.dataset.tip));
+    track.addEventListener('mousemove', moveTip);
+    track.addEventListener('mouseleave', hideTip);
+  });
+}
+
+function buildReversalChart(){
+  const el = document.getElementById('reversal-chart');
+  const rows = [
+    { label:'Seen often (70%) — but bad (20% win rate)', value:37, color:'var(--signal)', tip:'Only ~37% still picked the frequent option once it was clearly bad' },
+    { label:'Seen equally often, both 20% win rate', value:52, color:'var(--synapse)', tip:'~52% picked the rarely-seen option — close to a coin flip' }
+  ];
+  el.innerHTML = rows.map(r => `
+    <div class="compare-card">
+      <div class="c-label">${r.label}</div>
+      <div class="c-num">~${r.value}<span style="font-size:18px">%</span></div>
+      <div class="c-track" data-tip="${r.tip}"><div class="c-fill" style="width:${r.value}%; background:${r.color};"></div></div>
+    </div>
+  `).join('');
+  el.querySelectorAll('.c-track').forEach(track => {
+    track.style.cursor = 'pointer';
+    track.addEventListener('mouseenter', e => showTip(e, track.dataset.tip));
+    track.addEventListener('mousemove', moveTip);
+    track.addEventListener('mouseleave', hideTip);
+  });
+}
+
+function setupSimulator(){
+  const TRUE_RATE = 0.65; // hidden true win rate, identical for both machines
+  let a = { plays:0, wins:0 };
+  let b = { plays:0, wins:0 };
+
+  function flip(){ return Math.random() < TRUE_RATE ? 1 : 0; }
+
+  function certainty(plays){
+    // playful, illustrative "confidence" curve — not a real statistical CI
+    return Math.min(100, Math.round(100 * (1 - 1/Math.sqrt(plays + 1))));
+  }
+
+  function render(){
+    const estA = a.plays ? Math.round(100 * a.wins / a.plays) : null;
+    const estB = b.plays ? Math.round(100 * b.wins / b.plays) : null;
+    document.getElementById('sim-record-a').textContent = `${a.plays} plays · ${a.wins} wins`;
+    document.getElementById('sim-record-b').textContent = `${b.plays} plays · ${b.wins} wins`;
+    document.getElementById('sim-estimate-a').textContent = estA === null ? '—' : estA + '%';
+    document.getElementById('sim-estimate-b').textContent = estB === null ? '—' : estB + '%';
+    document.getElementById('sim-fill-a').style.width = (estA || 0) + '%';
+    document.getElementById('sim-fill-b').style.width = (estB || 0) + '%';
+    document.getElementById('sim-cert-a').style.width = certainty(a.plays) + '%';
+    document.getElementById('sim-cert-b').style.width = certainty(b.plays) + '%';
+
+    const revealEl = document.getElementById('sim-reveal-text');
+    if (a.plays >= 60){
+      revealEl.textContent = `Psst — both machines are actually set to the same ${Math.round(TRUE_RATE*100)}% win rate. Notice how much more confident you are about Machine A?`;
+    } else if (a.plays > 0){
+      revealEl.textContent = `${a.plays + b.plays} rounds watched so far — keep going to see your confidence gap grow.`;
+    } else {
+      revealEl.textContent = '';
+    }
+  }
+
+  document.getElementById('sim-run').addEventListener('click', () => {
+    for (let i = 0; i < 7; i++){ a.plays++; a.wins += flip(); }
+    for (let i = 0; i < 3; i++){ b.plays++; b.wins += flip(); }
+    render();
+  });
+  document.getElementById('sim-reset-btn').addEventListener('click', () => {
+    a = { plays:0, wins:0 }; b = { plays:0, wins:0 };
+    render();
+  });
+  render();
+}
+
 function renderSpineMortality(){
   // 30-day survival by study (Table 1), sorted ascending, % survived
   const survivalByStudy = [
